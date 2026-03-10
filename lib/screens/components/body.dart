@@ -1,4 +1,6 @@
 import 'package:bagshop/screens/components/item_card.dart' show ItemCard;
+import 'package:bagshop/screens/details/deatils.dart';
+
 import 'package:flutter/material.dart';
 import 'package:bagshop/models/product.dart';
 import 'package:bagshop/screens/components/categorries.dart';
@@ -40,7 +42,14 @@ class Body extends StatelessWidget {
               itemBuilder: (context, index) {
                 return ItemCard(
                   product: products[index],
-                  press: () {},
+                  press: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Details( 
+                        product: products[index],
+                      ),
+                    ),
+                  ),
                 );
               },
             ),
@@ -50,4 +59,3 @@ class Body extends StatelessWidget {
     );
   }
 }
-

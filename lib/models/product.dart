@@ -6,6 +6,8 @@ class Product {
   final int price;
   final Color color;
 
+  var size;
+
   Product({
     required this.image,
     required this.title,
@@ -19,7 +21,7 @@ List<Product> products = [
     image: "assets/1.jpg",
     title: "Office Bag",
     price: 234,
-    color: const Color.fromARGB(0, 242, 238, 238),
+    color: const Color.fromARGB(0, 214, 38, 38),
   ),
   Product(
     image: "assets/2.jpg",
