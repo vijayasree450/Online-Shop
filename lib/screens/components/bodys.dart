@@ -1,158 +1,203 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:bagshop/models/product.dart';
 import 'package:bagshop/screens/components/productTitleWith.dart';
+import 'package:bagshop/screens/components/color_and_size.dart';
+import 'package:bagshop/screens/components/description.dart';
 
 class Body extends StatelessWidget {
-  final Product product;
+final Product product;
 
-  const Body({super.key, required this.product});
+const Body({super.key, required this.product});
 
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+@override
+Widget build(BuildContext context) {
+Size size = MediaQuery.of(context).size;
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: size.height,
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  height: size.height,
-                  color: Colors.white,
-                ),
+return SingleChildScrollView(
+  child: SizedBox(
+    height: size.height,
+    child: Stack(
+      children: <Widget>[
+        Container(
+          height: size.height,
+          color: Colors.white,
+        ),
 
-                ColorSection(
-                  size: size,
-                  product: product,
-                ),
-
-                ProductTitleWith(product: product),
-              ],
+        Container(
+          margin: EdgeInsets.only(top: size.height * 0.3),
+          padding: EdgeInsets.only(
+            top: size.height * 0.12,
+            left: 20,
+            right: 20,
+          ),
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 244, 247, 250),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24),
+              topRight: Radius.circular(24),
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
 
-class ColorSection extends StatelessWidget {
-  final Size size;
-  final Product product;
-
-  const ColorSection({
-    super.key,
-    required this.size,
-    required this.product,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        top: size.height * 0.3,
-        right: 4,
-        left: 10,
-      ),
-      padding: EdgeInsets.only(top: size.height * 0.12),
-      height: 800,
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 244, 247, 250),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
-        ),
-      ),
-      child: Column(
-        children: <Widget>[
-          const SizedBox(height: 55),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text("Colors"),
-                  
-                      Row(
-                        children: const [
-                          ColorDot(
-                            color: Color.fromARGB(255, 160, 223, 160),
-                            isSelected: true,
-                          ),
-                          ColorDot(color: Colors.black),
-                          ColorDot(color: Colors.brown),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                Expanded(
-                  child: RichText(
-                    text: TextSpan(
-                      style: const TextStyle(color: Colors.black),
-                      children: [
-                        const TextSpan(text: "Size\n"),
-                        // SizedBox(height: 5,),
-                        TextSpan(
-                          // text: "${product.size} cm",
-                          
-                          text: "12 Cm",
-                          style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall,
-                          
-                          // .copyWith(fontWeight: FontWeight(bold),)
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ColorAndSize(product: product),
+              const SizedBox(height: 20),
+              Description(product: product),
+              const SizedBox(height: 20),
+              const CartCounter(),
+              const SizedBox(height: 20),
+              AddToCart(product: product),
+            ],
           ),
-        ],
-      ),
-    );
-  }
+        ),
+
+        ProductTitleWith(product: product),
+      ],
+    ),
+  ),
+);
+}
 }
 
-class ColorDot extends StatelessWidget {
-  final Color color;
-  final bool isSelected;
+class CartCounter extends StatefulWidget {
+const CartCounter({super.key});
 
-  const ColorDot({
-    super.key,
-    required this.color,
-    this.isSelected = false,
-  });
+@override
+State<CartCounter> createState() => _CartCounterState();
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 5, right: 5),
-      padding: const EdgeInsets.all(2.5),
-      height: 24,
-      width: 24,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: isSelected ? const Color(0XFF356C95) : Colors.transparent,
+class _CartCounterState extends State<CartCounter> {
+
+int numOfItems = 1;
+bool isFavourite = false;
+
+@override
+Widget build(BuildContext context) {
+return Row(
+mainAxisAlignment: MainAxisAlignment.spaceBetween,
+children: [
+
+
+    Row(
+      children: [
+
+        SizedBox(
+          width: 40,
+          height: 32,
+          child: OutlinedButton(
+            onPressed: () {
+              setState(() {
+                if (numOfItems > 1) {
+                  numOfItems--;
+                }
+              });
+            },
+            child: const Icon(Icons.remove),
+          ),
         ),
-        shape: BoxShape.circle,
-      ),
-      child: DecoratedBox(
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text(
+            numOfItems.toString().padLeft(2, "0"),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+
+        SizedBox(
+          width: 40,
+          height: 32,
+          child: OutlinedButton(
+            onPressed: () {
+              setState(() {
+                numOfItems++;
+              });
+            },
+            child: const Icon(Icons.add),
+          ),
+        ),
+      ],
+    ),
+
+    GestureDetector(
+      onTap: () {
+        setState(() {
+          isFavourite = !isFavourite;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        height: 32,
+        width: 32,
         decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
+          color: isFavourite ? Colors.red : Colors.red,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: const Icon(
+          Icons.favorite,
+          color: Colors.white,
+          size: 18,
         ),
       ),
-    );
-  }
+    ),
+  ],
+);
+
+}
+}
+
+class AddToCart extends StatelessWidget {
+final Product product;
+
+const AddToCart({super.key, required this.product});
+
+@override
+Widget build(BuildContext context) {
+return Row(
+children: [
+SizedBox(height: 150,),
+    Container(
+      margin: const EdgeInsets.only(right: 20),
+      height: 50,
+      width: 58,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: product.color),
+      ),
+      child: IconButton(
+        icon: const Icon(Icons.shopping_cart),
+        color: Colors.black,
+        onPressed: () {},
+      ),
+    ),
+
+    Expanded(
+      child: SizedBox(
+        height: 50,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: product.color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+          ),
+          onPressed: () {},
+          child: const Text(
+            "BUY NOW",
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+    ),
+  ],
+);
+
+}
 }

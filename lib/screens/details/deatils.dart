@@ -12,7 +12,7 @@ class Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightGreen,
+      backgroundColor:  Color.fromARGB(255, 153, 202, 96),
       appBar: buildAppBar(context),
       body: Body(product: product), 
     );
@@ -28,18 +28,18 @@ class Details extends StatelessWidget {
       elevation: 0,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
-        color: Colors.white,
+        color: const Color.fromARGB(255, 0, 0, 0),
         onPressed: () {
           Navigator.pop(context);
         },
       ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.search, color: Colors.white),
+          icon: const Icon(Icons.search, color: Color.fromARGB(255, 14, 14, 14)),
           onPressed: () {},
         ),
         IconButton(
-          icon: const Icon(Icons.shopping_cart, color: Colors.white),
+          icon: const Icon(Icons.shopping_cart, color: Color.fromARGB(255, 36, 35, 35)),
           onPressed: () {},
         ),
       ],
