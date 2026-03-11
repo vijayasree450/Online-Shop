@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.2.3
 
@@ -19,6 +20,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
+
 
 flutter:
   uses-material-design: true
@@ -34,3 +37,11 @@ flutter:
     - assets/7.jpg
     - assets/8.jpg
     - assets/10.jpg
+    - assets/icon.png
+
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon.png"
+
